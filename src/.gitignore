@@ -1,0 +1,6 @@
+*.f
+*.for
+*_bak
+optim.x
+
+

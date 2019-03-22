@@ -1,0 +1,15 @@
+.cvsignore
+*.f
+*.for
+*_bak
+optim.x
+OPWARM.*
+*.txt
+driver
+model
+model_in
+model_out
+offline_driver
+
+
+
