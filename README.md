@@ -66,117 +66,117 @@ Ready to run:
 I get a lot of output in opt0.txt, which is easier to read with ```less -S opt0.out``` (to truncate long lines); essentially I have the same value for the cost function.
 
 ```
-# ==================================================
-# Large Scale Optimization with off-line capability.
-# ==================================================
+==================================================
+Large Scale Optimization with off-line capability.
+==================================================
 
-# OPTIM_READPARMS: Control options have been read.
-# OPTIM_READPARMS: Minimization options have been read.
+OPTIM_READPARMS: Control options have been read.
+OPTIM_READPARMS: Minimization options have been read.
 
-# OPTIM_READDATA: Reading cost function and gradient of cost function
-#                 for optimization cycle:            0
+OPTIM_READDATA: Reading cost function and gradient of cost function
+                for optimization cycle:            0
 
-# OPTIM_READDATA: opened file ecco_cost_MIT_CE_000.opt0000
-# OPTIM_READDATA: nvartype            1
-# OPTIM_READDATA: nvarlength         2315
-# OPTIM_READDATA: yctrlid MIT_CE_000
-# OPTIM_READDATA: filenopt            0
-# OPTIM_READDATA: fileff    6.2002322818233591     
-# OPTIM_READDATA: fileiG            1
-# OPTIM_READDATA: filejG            1
-# OPTIM_READDATA: filensx            2
-# OPTIM_READDATA: filensy            2
-# [...]
-# OPTIM_READDATA: end of optim_readdata
-
-
-# OPTIM_READPARMS: Iteration number =            0
-# number of control variables       =         2315
-# cost function value in ecco_ctrl  =    6.2002322818233591     
-# expected cost function minimum    =    5.5802090536410232     
-# expected cost function decrease   =   0.62002322818233591     
-# Data will be read from the following file: ecco_ctrl_MIT_CE_000.opt0000
-
-# OPTIM_SUB: Calling m1qn3_optim for iteration:            0
-# OPTIM_SUB: with nn, REAL_BYTE =         2315           4
-# OPTIM_SUB: read model state
-
-# OPTIM_READDATA: Reading control vector
-#                 for optimization cycle:            0
-
-# OPTIM_READDATA: opened file ecco_ctrl_MIT_CE_000.opt0000
-# OPTIM_READDATA: nvartype            1
-# OPTIM_READDATA: nvarlength         2315
-# OPTIM_READDATA: yctrlid MIT_CE_000
-# OPTIM_READDATA: filenopt            0
-# OPTIM_READDATA: fileff    6.2002322818233591     
-# OPTIM_READDATA: fileiG            1
-# OPTIM_READDATA: filejG            1
-# OPTIM_READDATA: filensx            2
-# OPTIM_READDATA: filensy            2
-# OPTIM_READDATA: end of optim_readdata
+OPTIM_READDATA: opened file ecco_cost_MIT_CE_000.opt0000
+OPTIM_READDATA: nvartype            1
+OPTIM_READDATA: nvarlength         2315
+OPTIM_READDATA: yctrlid MIT_CE_000
+OPTIM_READDATA: filenopt            0
+OPTIM_READDATA: fileff    6.2002322818233591     
+OPTIM_READDATA: fileiG            1
+OPTIM_READDATA: filejG            1
+OPTIM_READDATA: filensx            2
+OPTIM_READDATA: filensy            2
+[...]
+OPTIM_READDATA: end of optim_readdata
 
 
-# OPTIM_READDATA: Reading cost function and gradient of cost function
-#                 for optimization cycle:            0
+OPTIM_READPARMS: Iteration number =            0
+number of control variables       =         2315
+cost function value in ecco_ctrl  =    6.2002322818233591     
+expected cost function minimum    =    5.5802090536410232     
+expected cost function decrease   =   0.62002322818233591     
+Data will be read from the following file: ecco_ctrl_MIT_CE_000.opt0000
 
-# OPTIM_READDATA: opened file ecco_cost_MIT_CE_000.opt0000
-# OPTIM_READDATA: nvartype            1
-# OPTIM_READDATA: nvarlength         2315
-# OPTIM_READDATA: yctrlid MIT_CE_000
-# OPTIM_READDATA: filenopt            0
-# OPTIM_READDATA: fileff    6.2002322818233591     
-# OPTIM_READDATA: fileiG            1
-# OPTIM_READDATA: filejG            1
-# OPTIM_READDATA: filensx            2
-# OPTIM_READDATA: filensy            2
-# OPTIM_READDATA: end of optim_readdata
+OPTIM_SUB: Calling m1qn3_optim for iteration:            0
+OPTIM_SUB: with nn, REAL_BYTE =         2315           4
+OPTIM_SUB: read model state
 
-# OPTIM_SUB after reading ecco_ctrl and ecco_cost:
-# OPTIM_SUB      nn =         2315
-# OPTIM_SUB    objf =    6.2002322818233591     
-# OPTIM_SUB   xx(1) =    0.0000000000000000     
-# OPTIM_SUB adxx(1) =   -6.7879882408306003E-005
-# OPTIM_SUB: cold start, optimcycle =           0
-# OPTIM_SUB: call m1qn3_offline ........
-# OPTIM_SUB: ...........................
-# OPTIM_SUB: returned from m1qn3_offline
-# OPTIM_SUB:      nn =         2315
-# OPTIM_SUB:   xx(1) =   0.51934864251896229       0.73000729032300782     
-# OPTIM_SUB: adxx(1) =   -6.7879882408306003E-005  -9.5413379312958568E-005
-# OPTIM_SUB: omode   =           -1
-# OPTIM_SUB: niter   =            1
-# OPTIM_SUB: nsim    =        10000
-# OPTIM_SUB: reverse =            1
+OPTIM_READDATA: Reading control vector
+                for optimization cycle:            0
 
-# OPTIM_SUB: mean(xx) =  0.16365068483545642     
-# OPTIM_SUB:  max(xx) =   4.6525355815045790     
-# OPTIM_SUB:  min(xx) =  -9.3326211896764324     
-# OPTIM_SUB:  std(xx) =   15.613450260548481     
+OPTIM_READDATA: opened file ecco_ctrl_MIT_CE_000.opt0000
+OPTIM_READDATA: nvartype            1
+OPTIM_READDATA: nvarlength         2315
+OPTIM_READDATA: yctrlid MIT_CE_000
+OPTIM_READDATA: filenopt            0
+OPTIM_READDATA: fileff    6.2002322818233591     
+OPTIM_READDATA: fileiG            1
+OPTIM_READDATA: filejG            1
+OPTIM_READDATA: filensx            2
+OPTIM_READDATA: filensy            2
+OPTIM_READDATA: end of optim_readdata
 
 
-# OPTIM_STORE_M1QN3: saving the state of m1qn3 in OPWARM.opt0001
+OPTIM_READDATA: Reading cost function and gradient of cost function
+                for optimization cycle:            0
 
-# OPTIM_SUB: writing         2315  sized control to file ecco_ctrl
+OPTIM_READDATA: opened file ecco_cost_MIT_CE_000.opt0000
+OPTIM_READDATA: nvartype            1
+OPTIM_READDATA: nvarlength         2315
+OPTIM_READDATA: yctrlid MIT_CE_000
+OPTIM_READDATA: filenopt            0
+OPTIM_READDATA: fileff    6.2002322818233591     
+OPTIM_READDATA: fileiG            1
+OPTIM_READDATA: filejG            1
+OPTIM_READDATA: filensx            2
+OPTIM_READDATA: filensy            2
+OPTIM_READDATA: end of optim_readdata
 
-# OPTIM_WRITEDATA: Writing new control vector to file(s)
-#                  for optimization cycle:            1
+OPTIM_SUB after reading ecco_ctrl and ecco_cost:
+OPTIM_SUB      nn =         2315
+OPTIM_SUB    objf =    6.2002322818233591     
+OPTIM_SUB   xx(1) =    0.0000000000000000     
+OPTIM_SUB adxx(1) =   -6.7879882408306003E-005
+OPTIM_SUB: cold start, optimcycle =           0
+OPTIM_SUB: call m1qn3_offline ........
+OPTIM_SUB: ...........................
+OPTIM_SUB: returned from m1qn3_offline
+OPTIM_SUB:      nn =         2315
+OPTIM_SUB:   xx(1) =   0.51934864251896229       0.73000729032300782     
+OPTIM_SUB: adxx(1) =   -6.7879882408306003E-005  -9.5413379312958568E-005
+OPTIM_SUB: omode   =           -1
+OPTIM_SUB: niter   =            1
+OPTIM_SUB: nsim    =        10000
+OPTIM_SUB: reverse =            1
 
-# OPTIM_WRITEDATA: nvartype              1
-# OPTIM_WRITEDATA: nvarlength         2315
-# OPTIM_WRITEDATA: yctrlid    MIT_CE_000
-# OPTIM_WRITEDATA: nopt                  1
-# OPTIM_WRITEDATA: ff           -9999.0000000000000     
-# OPTIM_WRITEDATA: iG                    1
-# OPTIM_WRITEDATA: jG                    1
-# OPTIM_WRITEDATA: nsx                   2
-# OPTIM_WRITEDATA: nsy                   2
-# OPTIM_WRITEDATA: end of optim_writedata, icvoffset         2315
+OPTIM_SUB: mean(xx) =  0.16365068483545642     
+OPTIM_SUB:  max(xx) =   4.6525355815045790     
+OPTIM_SUB:  min(xx) =  -9.3326211896764324     
+OPTIM_SUB:  std(xx) =   15.613450260548481     
 
 
-# ======================================
-# Large Scale Optimization run finished.
-# ======================================
+OPTIM_STORE_M1QN3: saving the state of m1qn3 in OPWARM.opt0001
+
+OPTIM_SUB: writing         2315  sized control to file ecco_ctrl
+
+OPTIM_WRITEDATA: Writing new control vector to file(s)
+                 for optimization cycle:            1
+
+OPTIM_WRITEDATA: nvartype              1
+OPTIM_WRITEDATA: nvarlength         2315
+OPTIM_WRITEDATA: yctrlid    MIT_CE_000
+OPTIM_WRITEDATA: nopt                  1
+OPTIM_WRITEDATA: ff           -9999.0000000000000     
+OPTIM_WRITEDATA: iG                    1
+OPTIM_WRITEDATA: jG                    1
+OPTIM_WRITEDATA: nsx                   2
+OPTIM_WRITEDATA: nsy                   2
+OPTIM_WRITEDATA: end of optim_writedata, icvoffset         2315
+
+
+======================================
+Large Scale Optimization run finished.
+======================================
 ```
 
 ```ff = -9999``` is an intentional dummy value.
