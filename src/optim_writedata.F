@@ -57,7 +57,7 @@ c     == local variables ==
 
       integer i,j,k
       integer ii
-      integer bi,bj
+CML      integer bi,bj
       integer biG,bjG
       integer nopt
       integer icvcomp
@@ -185,8 +185,10 @@ c--         Write the data.
 cph         do bj = 1,nsy
 cph          do bi = 1,nsx
          write( funit ) ncvarindex(icvar)
-         write( funit ) bj
-         write( funit ) bi
+CML         write( funit ) bi
+CML         write( funit ) bj
+         write( funit ) nsx
+         write( funit ) nsy
          do k = 1,ncvarnrmax(icvar)
           cbuffindex = 0
           if (ncvargrd(icvar) .eq. 'c') then

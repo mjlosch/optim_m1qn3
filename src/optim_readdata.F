@@ -65,7 +65,7 @@ c     == routine arguments ==
 
 c     == local variables ==
 
-      integer bi,bj
+CM      integer bi,bj
       integer biG,bjG
       integer i,j
       integer ii,k
@@ -263,7 +263,7 @@ cph      endif
        print*
        print*, prefix, ' Numbers of tiles do not match.'
        print*,'                 parameter x/y no. of tiles = ',
-     &      bi,bj
+     &      nsx,nsy
        print*,'                 data      x/y no. of tiles = ',
      &      filensx,filensy
        print*
