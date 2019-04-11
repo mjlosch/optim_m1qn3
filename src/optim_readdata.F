@@ -146,6 +146,7 @@ c--   Read the header.
       read( funit ) yctrlid
       read( funit ) filenopt
       read( funit ) fileff
+C     filei/jG are dummy values and not used
       read( funit ) fileiG
       read( funit ) filejG
       read( funit ) filensx
@@ -163,6 +164,7 @@ c     read(funit) nWetiGlobal(1)
 #endif
 
 cgg(    Add OBCS Mask information into the header section for optimization.
+CML#if (defined (ALLOW_CTRL) && defined (ALLOW_OBCS))
 #ifdef ALLOW_OBCSN_CONTROL
       read( funit ) ((nWetobcsnGlo(k,iobcs), k=1,nr),iobcs= 1,nobcs)
 #endif
@@ -175,6 +177,7 @@ cgg(    Add OBCS Mask information into the header section for optimization.
 #ifdef ALLOW_OBCSE_CONTROL
       read( funit ) ((nWetobcseGlo(k,iobcs), k=1,nr),iobcs= 1,nobcs)
 #endif
+CML#endif /* ALLOW_CTRL and ALLOW_OBCS */
 cgg)
       read( funit ) (ncvarindex(i), i=1,maxcvars)
       read( funit ) (ncvarrecs(i),  i=1,maxcvars)
