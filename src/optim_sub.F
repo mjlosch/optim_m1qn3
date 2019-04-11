@@ -146,7 +146,12 @@ c     initialise the dummy arguments that are not used
 
 c--   first read the model output into xx, adxx, and cost function 
 c     value into objf
+#if defined(DYNAMIC)
       do i = 1,nn
+#else
+c     make sure that really everything is initialized
+      do i = 1,nmax
+#endif
        xx(i)   = 0.
        adxx(i) = 0.
       enddo
@@ -156,10 +161,21 @@ c
       call optim_readdata( nn, costname, .false., objf, adxx )
       print *, ' OPTIM_SUB after reading ', 
      &           ctrlname, ' and ', costname, ':'
-      print *, ' OPTIM_SUB      nn = ', nn
-      print *, ' OPTIM_SUB    objf = ', objf
-      print *, ' OPTIM_SUB   xx(1) = ', xx(1)
-      print *, ' OPTIM_SUB adxx(1) = ', adxx(1)
+      print *, ' OPTIM_SUB          nn = ', nn
+      print *, ' OPTIM_SUB        objf = ', objf
+      print *, ' OPTIM_SUB       xx(1) = ', xx(1), xx(2)
+      xxmean = sum(xx)/dble(nn)
+      print *, ' OPTIM_SUB:   mean(xx) =', xxmean
+      print *, ' OPTIM_SUB:    max(xx) =', maxval(xx)
+      print *, ' OPTIM_SUB:    min(xx) =', minval(xx)
+      print *, ' OPTIM_SUB:    std(xx) =', sum((xx-xxmean)**2)/dble(nn)
+      print *, ' OPTIM_SUB    adxx(1)  = ', adxx(1), adxx(2)
+      xxmean = sum(adxx)/dble(nn)
+      print *, ' OPTIM_SUB: mean(adxx) =', xxmean
+      print *, ' OPTIM_SUB:  max(adxx) =', maxval(adxx)
+      print *, ' OPTIM_SUB:  min(adxx) =', minval(adxx)
+      print *, ' OPTIM_SUB:  std(adxx) =',
+     &                                   sum((adxx-xxmean)**2)/dble(nn)
       
       if ( coldStart ) then
 c--   cold start
