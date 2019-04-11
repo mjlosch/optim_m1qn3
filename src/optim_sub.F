@@ -164,18 +164,19 @@ c
       print *, ' OPTIM_SUB          nn = ', nn
       print *, ' OPTIM_SUB        objf = ', objf
       print *, ' OPTIM_SUB       xx(1) = ', xx(1), xx(2)
-      xxmean = sum(xx)/dble(nn)
+      xxmean = sum(xx(1:nn))/dble(nn)
       print *, ' OPTIM_SUB:   mean(xx) =', xxmean
-      print *, ' OPTIM_SUB:    max(xx) =', maxval(xx)
-      print *, ' OPTIM_SUB:    min(xx) =', minval(xx)
-      print *, ' OPTIM_SUB:    std(xx) =', sum((xx-xxmean)**2)/dble(nn)
+      print *, ' OPTIM_SUB:    max(xx) =', maxval(xx(1:nn))
+      print *, ' OPTIM_SUB:    min(xx) =', minval(xx(1:nn))
+      print *, ' OPTIM_SUB:    std(xx) =',
+     &     sum((xx(1:nn)-xxmean)**2)/dble(nn)
       print *, ' OPTIM_SUB    adxx(1)  = ', adxx(1), adxx(2)
-      xxmean = sum(adxx)/dble(nn)
+      xxmean = sum(adxx(1:nn))/dble(nn)
       print *, ' OPTIM_SUB: mean(adxx) =', xxmean
-      print *, ' OPTIM_SUB:  max(adxx) =', maxval(adxx)
-      print *, ' OPTIM_SUB:  min(adxx) =', minval(adxx)
+      print *, ' OPTIM_SUB:  max(adxx) =', maxval(adxx(1:nn))
+      print *, ' OPTIM_SUB:  min(adxx) =', minval(adxx(1:nn))
       print *, ' OPTIM_SUB:  std(adxx) =',
-     &                                   sum((adxx-xxmean)**2)/dble(nn)
+     &     sum((adxx(1:nn)-xxmean)**2)/dble(nn)
       
       if ( coldStart ) then
 c--   cold start
@@ -233,12 +234,13 @@ c     the reverse communication mode and should not be changed.
 
 c     compute min/max/mean/std of output vector see if it is within 
 c     reasonable bounds (prior to scaling)
-      xxmean = sum(xx)/dble(nn)
+      xxmean = sum(xx(1:nn))/dble(nn)
       print *
       print *,' OPTIM_SUB: mean(xx) =', xxmean
-      print *,' OPTIM_SUB:  max(xx) =', maxval(xx)
-      print *,' OPTIM_SUB:  min(xx) =', minval(xx)
-      print *,' OPTIM_SUB:  std(xx) =',sum((xx-xxmean)**2)/dble(nn)
+      print *,' OPTIM_SUB:  max(xx) =', maxval(xx(1:nn))
+      print *,' OPTIM_SUB:  min(xx) =', minval(xx(1:nn))
+      print *,' OPTIM_SUB:  std(xx) =',
+     &     sum((xx(1:nn)-xxmean)**2)/dble(nn)
       print *
 c     write state of m1qn3 into pickup file for warm restart
       call optim_store_m1qn3(ndz,iz,dz,niter,nsim,epsg,df1,
