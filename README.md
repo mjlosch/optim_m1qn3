@@ -1,5 +1,5 @@
 # optim_m1qn3
-optimisation package for MITgcm based on m1qn3 with proper reverse control
+optimisation package for MITgcm based on m1qn3 with proper reverse communication
 
 These are some basic instructions to an optimization of MITgcm/verification/tutorial_global_oce_optim with optim_m1qn3. Some tweaking is definitely possible and not described here.
 
