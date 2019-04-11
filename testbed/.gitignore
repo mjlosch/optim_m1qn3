@@ -1,6 +1,7 @@
 .cvsignore
 *.f
 *.for
+*.o
 *_bak
 optim.x
 OPWARM.*
@@ -10,6 +11,9 @@ model
 model_in
 model_out
 offline_driver
+ddot.F
+m1qn3_offline.F
+optim_store_m1qn3.F
 
 
 
