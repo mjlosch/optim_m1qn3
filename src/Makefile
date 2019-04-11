@@ -36,6 +36,8 @@ CPP             = cat $< | /lib/cpp -P -traditional
 # CPP		= cat $< | /usr/ccs/lib/cpp
 
 MAKEDEPEND=makedepend
+# this works when you done have a makedepend
+#MAKEDEPEND=../../MITgcm/tools/xmakedepend
 
 INCLUDEDIRS     = -I.				\
 		  -I../../MITgcm/verification/tutorial_global_oce_optim/build
@@ -54,6 +56,8 @@ CPPFLAGS = -DREAL_BYTE=4		\
 
 #                -DMAX_INDEPEND=293570968        \
 # FORTRAN compiler and its flags.
+# It is important that byte conversion flags are consistent between this
+# compilation and the mitgcmuv compilation
 # default is gfortran
 FC              = gfortran
 FFLAGS          =  -fconvert=big-endian
@@ -69,6 +73,10 @@ FFLAGS          =  -fconvert=big-endian
 # AER cluster
 #FC		= /opt/mpich/bin/mpif77
 #FFLAGS		= -byteswapio -r8 -Mnodclchk -Mextend
+
+# Cray compiler
+#FC     = ftn
+#FFLAGS =  -h byteswapio -hnoomp -O0 -hfp0
 
 SMALLF      = $(SRC:.F=.$(SUFF))
 OBJECTS     = $(SRC:.F=.o)
