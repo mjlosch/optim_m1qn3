@@ -1,6 +1,9 @@
+*~
+*.o
 *.f
 *.for
 *_bak
+*.bak
 optim.x
 
 
