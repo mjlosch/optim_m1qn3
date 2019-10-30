@@ -1,6 +1,3 @@
-C $Header: /u/gcmpack/MITgcm_contrib/mlosch/optim_m1qn3/optim_store_m1qn3.F,v 1.6 2019/03/20 16:05:00 mlosch Exp $
-C $Name:  $
-
       subroutine optim_store_m1qn3(
      I     ndz,
      U     iz,dz,niter,nsim,epsg,df1,

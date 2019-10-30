@@ -1,5 +1,3 @@
-C $Header: /u/gcmpack/MITgcm_contrib/mlosch/optim_m1qn3/testbed/m1qn3.F,v 1.1 2012/05/02 12:27:42 mlosch Exp $
-C $Name:  $
       subroutine m1qn3 (simul,prosca,ctonb,ctcab,n,x,f,g,dxmin,df1,
      &                  epsg,normtype,impres,io,imode,omode,niter,nsim,
      &                  iz,dz,ndz,reverse,indic,izs,rzs,dzs)

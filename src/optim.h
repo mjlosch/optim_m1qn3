@@ -1,6 +1,3 @@
-C $Header: /u/gcmpack/MITgcm_contrib/mlosch/optim_m1qn3/optim.h,v 1.2 2012/05/09 18:33:38 mlosch Exp $
-C $Name:  $
-
 c     ==================================================================
 c     HEADER OPTIMIZATION
 c     ==================================================================

@@ -1,5 +1,3 @@
-# $Header: /u/gcmpack/MITgcm_contrib/mlosch/optim_m1qn3/Makefile,v 1.4 2016/05/09 09:36:00 mlosch Exp $
-# $Name:  $
 #***********************************************************************
 # Makefile for the off-line large scale optimization with m1qn3
 # in reverse communication mode.

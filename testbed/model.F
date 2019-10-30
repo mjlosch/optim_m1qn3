@@ -1,5 +1,3 @@
-C $Header: /u/gcmpack/MITgcm_contrib/mlosch/optim_m1qn3/testbed/model.F,v 1.3 2012/05/07 12:09:27 mlosch Exp $
-C $Name:  $
       program model
       implicit none
       integer indic, n, nn
