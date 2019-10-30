@@ -1,6 +1,3 @@
-C $Header: /u/gcmpack/MITgcm_contrib/mlosch/optim_m1qn3/m1qn3_offline.F,v 1.7 2019/03/20 16:05:00 mlosch Exp $
-C $Name:  $    
-C     
 C     The original m1qn3 has been modified to work "offline", i.e.
 C     the simulator and the driver of m1qn3_offline are separate 
 C     programs that are called alternatingly from a (shell-)script.

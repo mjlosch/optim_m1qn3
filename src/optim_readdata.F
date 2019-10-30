@@ -1,6 +1,3 @@
-C $Header: /u/gcmpack/MITgcm_contrib/mlosch/optim_m1qn3/optim_readdata.F,v 1.6 2018/05/03 11:26:05 mlosch Exp $
-C $Name:  $
-
 C     ECCO_CPPOPTIONS used to affect maxcvars and defined ALLOW_OBCS?_CONTROL
 C#include "ECCO_CPPOPTIONS.h"
 C     now:

@@ -1,5 +1,3 @@
-# $Header: /u/gcmpack/MITgcm_contrib/mlosch/optim_m1qn3/testbed/Makefile,v 1.2 2019/02/12 15:51:48 mlosch Exp $
-# $Name:  $
 MAKEFILE=Makefile
 
 SRC		=	ddot.F			\

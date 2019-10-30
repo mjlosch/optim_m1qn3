@@ -1,9 +1,6 @@
 #!/bin/bash 
 #
 
-# $Header: /u/gcmpack/MITgcm_contrib/mlosch/optim_m1qn3/testbed/runscript.sh,v 1.3 2012/06/06 14:08:58 mlosch Exp $
-# $Name:  $
-
 # a simple bash script that compiles two exectubales driver and offline_driver,
 # runs thems to compare the output of optimizing simple test functions
 # (defined in mysimul.F) between the original m1qn3 and the m1qn3_offline

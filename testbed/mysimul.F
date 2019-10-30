@@ -1,5 +1,3 @@
-C $Header: /u/gcmpack/MITgcm_contrib/mlosch/optim_m1qn3/testbed/mysimul.F,v 1.1 2012/05/02 12:27:42 mlosch Exp $
-C $Name:  $
       subroutine mysimul(indic,n,f,x,g,izs,rzs,dzs)
       implicit none
       integer indic, n

@@ -1,5 +1,3 @@
-C $Header: /u/gcmpack/MITgcm_contrib/mlosch/optim_m1qn3/testbed/offline_driver.F,v 1.2 2012/05/02 20:14:06 mlosch Exp $
-C $Name:  $
       program offline_driver
       implicit none
       integer k

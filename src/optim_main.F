@@ -1,5 +1,3 @@
-c $Header: /u/gcmpack/MITgcm_contrib/mlosch/optim_m1qn3/optim_main.F,v 1.3 2018/05/03 11:26:05 mlosch Exp $
-c $Name:  $
 c     ==================================================================
 c
 c     optim2: Routines for doing an off-line optimization with m1qn3

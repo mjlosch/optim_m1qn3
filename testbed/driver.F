@@ -1,5 +1,3 @@
-C $Header: /u/gcmpack/MITgcm_contrib/mlosch/optim_m1qn3/testbed/driver.F,v 1.2 2012/05/07 12:09:27 mlosch Exp $
-C $Name:  $
       program driver
       implicit none
       integer i,k
