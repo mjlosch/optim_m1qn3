@@ -12,6 +12,7 @@ c     ==================================================================
 c     subroutine optim_readparms
 c     ==================================================================
 c
+c     o initialise some global variables
 c     o Read namelist files and
 c     o read the number of control variables and return it as nn
 c     o read the cost function value from ctrlname and return as ff,
@@ -71,6 +72,13 @@ c     == end of interface ==
 
       namelist /M1QN3/
      &     coldStart
+
+c--   These need to be set. In the MITgcm they are set in ini_procs.F
+c     according to the current mpi-process, but here we can just set
+c     them to 1 because we do not anticipate, to ever run this program
+c     in a multprocessor environment.
+      myygloballo = 1
+      myxgloballo = 1
 
 c--   Preset the optimization parameters.
       optimcycle =  0
@@ -158,7 +166,7 @@ c     read header from costname rather than ctrlname, because the
 c     cost function value in costname is what we need, ctrlname only
 c     contains a valid cost function value for the 0th iteration
       call optim_readdata ( nn, costname, .true., ff, vv)
-      
+
       if ( dfminFrac.lt.0.0 .or. dfminFrac.ge.1.0) then
        print*, ' OPTIM_READPARMS: dfminFrac = ', dfminFrac,
      &      ' should be > 0 and < 1'
@@ -181,7 +189,7 @@ c     otherwise we (ab-)use the file ctrlname for storing fmin
         stop 'S/R OPTIM_READPARMS: ABNORMAL END'
        endif
        if ( fmin.gt.ff ) then
-        print '(A,E12.6,A,E12.6)', ' OPTIM_READPARMS: fmin = ', fmin, 
+        print '(A,E12.6,A,E12.6)', ' OPTIM_READPARMS: fmin = ', fmin,
      &       ' should be < ff = ', ff
         stop 'S/R OPTIM_READPARMS: ABNORMAL END'
        endif
@@ -196,7 +204,7 @@ c--   Do some final printout.
        print*, ' expected cost function minimum    = ', fmin
        print*, ' expected cost function decrease   = ', ff-fmin
       endif
-      print '(a,4a,i4.4)', 
+      print '(a,4a,i4.4)',
      &     '  Data will be read from the following file: ',
      &     ctrlname,'_',yctrlid(1:10),'.opt', optimcycle
       print*
@@ -226,4 +234,3 @@ C
 C
       RETURN
       END
-
