@@ -194,8 +194,8 @@ cat > data.optim <<EOF #
 # ********************************
 &OPTIM
  optimcycle=${myiter},
- numiter=100,
- nfunc=100,
+ numiter=10,
+ nfunc=10,
  dfminFrac = 0.1,
  iprint=10,
  nupdate=8,
@@ -214,6 +214,11 @@ do
     sed -i .${it} "s/.*optimcycle.*/ optimcycle=${myiter},/" data.optim
     ./mitgcmuv_ad > output${it}.txt
     ./optim.x > opt${it}.txt
+    m1qn3out=`grep "m1qn3: output mode" m1qn3_output.txt`
+    if test "x${m1qn3out}" != x; then
+	    echo "m1qn3 has finished"
+	    break
+    fi
     # increase counter for next iteration
     ((myiter++))
 done
