@@ -34,7 +34,7 @@ git clone https://github.com/mjlosch/optim_m1qn3.git
 cd optim_m1qn3/src
 ```
 
-Edit Makefile to adjust to your platform. For me this involves choosing the correct CPP command and setting SUFF=for (because MacOS is case-insensitive in my case) 
+Edit Makefile to adjust to your platform. For me this involves choosing the correct CPP command and setting SUFF=for (because MacOS is case-insensitive in my case)
 
 ```
 make depend
@@ -51,8 +51,8 @@ cp ../../../../optim_m1qn3/src/optim.x .
 Then:
 - turn off the gradient check (in data.pkg: ```useGrdchk = .FALSE.```)
 - tweak the namelist files data.ctrl and data.optim to the compiler needs (I need a ```/``` to terminate a namelist)
-- I would replace fmin with dfminFrac = 0.1 (expected reduction of 10%) in ```data.optim&OPTIM``` to be independent of the absolute value of the  cost function. When you run ```./mitgcmuv_ad``` with this you need to comment out ```dfminFrac```, because ```mitgcmuv_ad``` does not know about this namelist parameter (something to be fixed)
-- set ```numiter=100```, ```nfunc=10```, or some other large value. ```nfunc*numiter``` is the number of simulations that are allowed in total. This number should be much larger than numiter, because you may need more than one function call (= run of mitgcmuv_ad) per iteration, see m1qn3 docs for details 
+- I would replace fmin with dfminFrac = 0.1 (expected reduction of 10%) in ```data.optim&OPTIM``` to be independent of the absolute value of the  cost function. (Note: When you run ```./mitgcmuv_ad``` with code prior to Apr 12, 2019 with this you need to comment out ```dfminFrac```, because older versions of ```mitgcmuv_ad``` did not know about this namelist parameter.)
+- set ```numiter=100```, ```nfunc=10```, or some other large value. ```nfunc*numiter``` is the number of simulations that are allowed in total. This number should be much larger than numiter, because you may need more than one function call (= run of mitgcmuv_ad) per iteration, see m1qn3 docs for details
 - add an empty namelist &M1QN3 to data.optim
 
 ```
@@ -81,7 +81,7 @@ OPTIM_READDATA: nvartype            1
 OPTIM_READDATA: nvarlength         2315
 OPTIM_READDATA: yctrlid MIT_CE_000
 OPTIM_READDATA: filenopt            0
-OPTIM_READDATA: fileff    6.2002322818233591     
+OPTIM_READDATA: fileff    6.2002322818233591
 OPTIM_READDATA: fileiG            1
 OPTIM_READDATA: filejG            1
 OPTIM_READDATA: filensx            2
@@ -92,9 +92,9 @@ OPTIM_READDATA: end of optim_readdata
 
 OPTIM_READPARMS: Iteration number =            0
 number of control variables       =         2315
-cost function value in ecco_ctrl  =    6.2002322818233591     
-expected cost function minimum    =    5.5802090536410232     
-expected cost function decrease   =   0.62002322818233591     
+cost function value in ecco_ctrl  =    6.2002322818233591
+expected cost function minimum    =    5.5802090536410232
+expected cost function decrease   =   0.62002322818233591
 Data will be read from the following file: ecco_ctrl_MIT_CE_000.opt0000
 
 OPTIM_SUB: Calling m1qn3_optim for iteration:            0
@@ -109,7 +109,7 @@ OPTIM_READDATA: nvartype            1
 OPTIM_READDATA: nvarlength         2315
 OPTIM_READDATA: yctrlid MIT_CE_000
 OPTIM_READDATA: filenopt            0
-OPTIM_READDATA: fileff    6.2002322818233591     
+OPTIM_READDATA: fileff    6.2002322818233591
 OPTIM_READDATA: fileiG            1
 OPTIM_READDATA: filejG            1
 OPTIM_READDATA: filensx            2
@@ -125,7 +125,7 @@ OPTIM_READDATA: nvartype            1
 OPTIM_READDATA: nvarlength         2315
 OPTIM_READDATA: yctrlid MIT_CE_000
 OPTIM_READDATA: filenopt            0
-OPTIM_READDATA: fileff    6.2002322818233591     
+OPTIM_READDATA: fileff    6.2002322818233591
 OPTIM_READDATA: fileiG            1
 OPTIM_READDATA: filejG            1
 OPTIM_READDATA: filensx            2
@@ -134,25 +134,25 @@ OPTIM_READDATA: end of optim_readdata
 
 OPTIM_SUB after reading ecco_ctrl and ecco_cost:
 OPTIM_SUB      nn =         2315
-OPTIM_SUB    objf =    6.2002322818233591     
-OPTIM_SUB   xx(1) =    0.0000000000000000     
+OPTIM_SUB    objf =    6.2002322818233591
+OPTIM_SUB   xx(1) =    0.0000000000000000
 OPTIM_SUB adxx(1) =   -6.7879882408306003E-005
 OPTIM_SUB: cold start, optimcycle =           0
 OPTIM_SUB: call m1qn3_offline ........
 OPTIM_SUB: ...........................
 OPTIM_SUB: returned from m1qn3_offline
 OPTIM_SUB:      nn =         2315
-OPTIM_SUB:   xx(1) =   0.51934864251896229       0.73000729032300782     
+OPTIM_SUB:   xx(1) =   0.51934864251896229       0.73000729032300782
 OPTIM_SUB: adxx(1) =   -6.7879882408306003E-005  -9.5413379312958568E-005
 OPTIM_SUB: omode   =           -1
 OPTIM_SUB: niter   =            1
 OPTIM_SUB: nsim    =        10000
 OPTIM_SUB: reverse =            1
 
-OPTIM_SUB: mean(xx) =  0.16365068483545642     
-OPTIM_SUB:  max(xx) =   4.6525355815045790     
-OPTIM_SUB:  min(xx) =  -9.3326211896764324     
-OPTIM_SUB:  std(xx) =   15.613450260548481     
+OPTIM_SUB: mean(xx) =  0.16365068483545642
+OPTIM_SUB:  max(xx) =   4.6525355815045790
+OPTIM_SUB:  min(xx) =  -9.3326211896764324
+OPTIM_SUB:  std(xx) =   15.613450260548481
 
 
 OPTIM_STORE_M1QN3: saving the state of m1qn3 in OPWARM.opt0001
@@ -166,7 +166,7 @@ OPTIM_WRITEDATA: nvartype              1
 OPTIM_WRITEDATA: nvarlength         2315
 OPTIM_WRITEDATA: yctrlid    MIT_CE_000
 OPTIM_WRITEDATA: nopt                  1
-OPTIM_WRITEDATA: ff           -9999.0000000000000     
+OPTIM_WRITEDATA: ff           -9999.0000000000000
 OPTIM_WRITEDATA: iG                    1
 OPTIM_WRITEDATA: jG                    1
 OPTIM_WRITEDATA: nsx                   2
@@ -181,7 +181,7 @@ Large Scale Optimization run finished.
 
 ```ff = -9999``` is an intentional dummy value.
 
-Now you can organize the rest in a loop. In bash, it could look like this: 
+Now you can organize the rest in a loop. In bash, it could look like this:
 first comment out ```dfminFrac```, because ```mitgcmuv_ad``` does not know about this; ```dfminFrac``` is really only needed in the zeroth iteration.
 ```
 # tabula rasa:
@@ -196,7 +196,7 @@ cat > data.optim <<EOF #
  optimcycle=${myiter},
  numiter=100,
  nfunc=100,
-#dfminFrac = 0.1,
+ dfminFrac = 0.1,
  iprint=10,
  nupdate=8,
 /
@@ -210,13 +210,9 @@ do
     # formatter iteration count
     it=`echo $myiter | awk '{printf "%03i",$1}'`
     echo "iteration ${myiter}"
-    # comment out dfminFrac from data.optim
-    sed -i '' 's/.*dfminFrac.*/#dfminFrac = 0.1,/' data.optim
     # increment counter in data.optim
     sed -i .${it} "s/.*optimcycle.*/ optimcycle=${myiter},/" data.optim
     ./mitgcmuv_ad > output${it}.txt
-    # add dfminFrac = 0.1,
-    sed -i '' 's/#dfminFrac.*/ dfminFrac = 0.1,/' data.optim
     ./optim.x > opt${it}.txt
     # increase counter for next iteration
     ((myiter++))
@@ -230,7 +226,7 @@ done
 (PID.TID 0000.0001)  global fc =  0.132325873958879D+02
 ```
 
-```grep "global fc " output???.txt``` 
+```grep "global fc " output???.txt```
 ```
 output000.txt:(PID.TID 0000.0001)  global fc =  0.620023228182336D+01
 output001.txt:(PID.TID 0000.0001)  global fc =  0.132325873958879D+02
