@@ -73,10 +73,10 @@ c     == end of interface ==
       namelist /M1QN3/
      &     coldStart
 
-c--   These need to be set. In the MITgcm they are set in ini_procs.F
-c     according to the current mpi-process, but here we can just set
-c     them to 1 because we do not anticipate, to ever run this program
-c     in a multprocessor environment.
+c--   Initialise myx/ygloballo to one. In the MITgcm they are set 
+c     in ini_procs.F according to the current mpi-process, but here 
+c     we can just set them to 1 because we do not anticipate, to 
+c     ever run this program in a multprocessor environment.
       myygloballo = 1
       myxgloballo = 1
 
