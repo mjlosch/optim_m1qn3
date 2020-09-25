@@ -56,7 +56,7 @@ c     value does not alter results
       omode=-1
       reverse=1
       niter = 1000
-      nsim  = 1000
+      nsim  = 10000
       do k=1,5
        iz(k)=0
       enddo
@@ -80,8 +80,8 @@ c     end restart stuff
       do i=1,n
        x(i) = 0.
       enddo
-      f=0.       
-       
+      f=0.
+
       open(11,file='count.txt',status='old')
       read(11,*) optimcycle
       close(11)
@@ -120,7 +120,7 @@ c     read restart information
       endif
 
       reverse=1
-      call m1qn3_offline 
+      call m1qn3_offline
      &     (simul_rc,euclid,ctonbe,ctcabe,n,x,f,g,dxmin,df1,
      &     epsg,normtype,impres,io,imode,omode,niter,nsim,
      &     iz,dz,ndz,reverse,indic,izs,rzs,dzs)
@@ -135,7 +135,7 @@ c     write restart information
       write(99) (x(i),i=1,n)
       write(99) izs,rzs,dzs
       close(99)
-      
+
 
       if ( reverse .le. 0 ) then
        print *, 'stoptheloop'
@@ -146,4 +146,3 @@ c     write restart information
       stop 'NORMAL END'
 
       end
-

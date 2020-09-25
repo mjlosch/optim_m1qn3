@@ -45,7 +45,7 @@ c     call simul with indic=1 every imode(3)th iteration
       omode=1
       reverse=1
       niter = 1000
-      nsim  = 1000
+      nsim  = 10000
       do i=1,5
        iz(i)=0
       enddo
@@ -82,7 +82,7 @@ c     first guess of x,f,g (izs=-1)
         write(*,fmt) 'ml-driver f    = ', f, (g(i),i=1,n)
 c        print *, 'ml-driver: niter = ', niter, nsim
         if ( reverse .lt. 0 ) goto 100
-        
+
        enddo
  100   continue
        reverse = 1
@@ -105,7 +105,7 @@ c
 c       print *, 'ml-driver niter =', niter, nsim
       enddo
       close(io)
-      
+
       print *, 'ml-driver: niter = ',niter
       print *, 'ml-driver: nsim  = ',nsim
       print *, 'ml-driver: omode = ',omode
