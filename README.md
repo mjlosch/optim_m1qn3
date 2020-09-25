@@ -1,5 +1,6 @@
 # optim_m1qn3
 optimisation package for MITgcm based on m1qn3 with proper reverse communication
+(code and documentation can be found here: https://who.rocq.inria.fr/Jean-Charles.Gilbert/modulopt/optimization-routines/m1qn3/m1qn3.html)
 
 These are some basic instructions to an optimization of MITgcm/verification/tutorial_global_oce_optim with optim_m1qn3. Some tweaking is definitely possible and not described here.
 
