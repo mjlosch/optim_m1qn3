@@ -3,14 +3,14 @@
      U     iz,dz,niter,nsim,epsg,df1,
      I     optimcycle,
      I     store)
-c     
+c
 c     subroutine optim_store_m1qn3
-c     
-c     Depending on the parameter store, store or restore the state of 
+c
+c     Depending on the parameter store, store or restore the state of
 c     m1qn3. The communication is mostly via common blocks in order
 c     to keep the changes to m1qn3 to a minimum. Only iz and dz are passed
 c     as arguments
-c     
+c
       implicit none
 c--   global variables
 #include "m1qn3_common.h"
@@ -28,6 +28,7 @@ c--   routine arguments
 c--   local variables
       integer io, k
       character*(14) fname
+      logical fileExists
 
 c--   routine body
       fname = ' '
@@ -57,13 +58,24 @@ c     mlis3_common.h
      &      tg,fg,fpg,td,ta,d2,fp,ffn,fd,fpd,z,test,gauche,droite
       else
        write(fname,'(A,I4.4)') 'OPWARM.opt',optimcycle
+       fileExists = .false.
+       inquire(file=fname, exist=fileExists)
+       if ( fileExists ) then
 c
-       print *
-       print *, ' OPTIM_STORE_M1QN3: restoring the state'//
-     &      ' of m1qn3 from ', fname
-       print *
+        print *
+        print *, ' OPTIM_STORE_M1QN3: restoring the state'//
+     &       ' of m1qn3 from ', fname
+        print *
 c
-       open(io,file=fname,form='unformatted',status='old')
+        open(io,file=fname,form='unformatted',status='old')
+       else
+        print*
+        print*,' =================================='
+        print*,' file ',fname, ' does not exist'
+        print*,' =================================='
+        print*
+        STOP 'Abnormal end in s/r optim_store_m1qn3'
+       endif
        read(io) niter,nsim
        read(io) iz
        read(io) (dz(k),k=1,ndz)

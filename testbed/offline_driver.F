@@ -125,10 +125,11 @@ c     read restart information
      &     epsg,normtype,impres,io,imode,omode,niter,nsim,
      &     iz,dz,ndz,reverse,indic,izs,rzs,dzs)
       close(io)
-c     write restart information
-       call optim_store_m1qn3(ndz,iz,dz,niter,nsim,epsg,df1,
-     I      optimcycle,
-     I      .true.)
+c     write restart information only if we want to do more iterations
+      if ( reverse .eq. 1 )
+     &     call optim_store_m1qn3(ndz,iz,dz,niter,nsim,epsg,df1,
+     I     optimcycle,
+     I     .true.)
 
       open(99,file='model_in',status='unknown',form='unformatted')
       write(99) indic,n
