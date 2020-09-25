@@ -12,15 +12,15 @@ c     ==================================================================
 c     subroutine optim_sub
 c     ==================================================================
 c
-c     o This is the main driver routine for the offline version of 
+c     o This is the main driver routine for the offline version of
 c       m1qn3 (m1qn3_offline). It
 c       - sets all m1qn3 relevant parameters
-c       - reads the model state (control vector, cost function, 
+c       - reads the model state (control vector, cost function,
 c         and gradient)
 c       - reads the state of m1qn3_offline
 c       - calls m1qn3_offline
 c       - saves model state (control vector) and state of m1qn3_offline
-c     The routine is somewhat lengthy and could be split into separate 
+c     The routine is somewhat lengthy and could be split into separate
 c     subroutines, but I felt that it was easier to write and test it
 c     in this form
 c     Martin Losch (Martin.Losch@awi.de), Apr, 2012
@@ -121,7 +121,7 @@ c     epsg=1.d-8
       dxmin=epsx
 c     will be set later
       df1=-UNSET_RL
-c     
+c
       imode=(/0,1,0/)
       omode=-1
 c     initialise work array
@@ -133,7 +133,7 @@ c     initialise work array
       do i=1,ndz
        dz(i) = 0.
       enddo
-c     these  alway have to be set like this
+c     these alway have to be set like this
       reverse=1
       indic=4
 c     initialise the dummy arguments that are not used
@@ -141,7 +141,7 @@ c     initialise the dummy arguments that are not used
       rzs(1)=UNSET_RS
       dzs(1)=UNSET_RL
 
-c--   first read the model output into xx, adxx, and cost function 
+c--   first read the model output into xx, adxx, and cost function
 c     value into objf
 #if defined(DYNAMIC)
       do i = 1,nn
@@ -156,7 +156,7 @@ c
       print *, ' OPTIM_SUB: read model state'
       call optim_readdata( nn, ctrlname, .false., objf,   xx )
       call optim_readdata( nn, costname, .false., objf, adxx )
-      print *, ' OPTIM_SUB after reading ', 
+      print *, ' OPTIM_SUB after reading ',
      &           ctrlname, ' and ', costname, ':'
       print *, ' OPTIM_SUB          nn = ', nn
       print *, ' OPTIM_SUB        objf = ', objf
@@ -174,13 +174,13 @@ c
       print *, ' OPTIM_SUB:  min(adxx) =', minval(adxx(1:nn))
       print *, ' OPTIM_SUB:  std(adxx) =',
      &     sum((adxx(1:nn)-xxmean)**2)/dble(nn)
-      
+
       if ( coldStart ) then
 c--   cold start
        print *, ' OPTIM_SUB: cold start, optimcycle =', optimcycle
        imode(2) = 0
 c     this variable is the only one of the m1qn3-related common blocks
-c     that needs to be initialized here to make sure that we have a 
+c     that needs to be initialized here to make sure that we have a
 c     clean start
        reentry  = 0
 c     compute expected decrease of cost function from objf and fmin;
@@ -210,7 +210,7 @@ c     re-open output file for m1qn3
 c--   call the minimizer, a slightly modified version of m1qn3 v3.3
 c     (Gilbert & Lemarechal, 1989), downloaded in April 2012.
 c     simul_rc,euclid,ctonbe,ctcabe are external subroutines that
-c     are provided within m1qn3. euclid, ctonbe, ctcabe can be replaced 
+c     are provided within m1qn3. euclid, ctonbe, ctcabe can be replaced
 c     by something more efficient, simul_rc is a dummy routine for
 c     the reverse communication mode and should not be changed.
       print *, ' OPTIM_SUB: call m1qn3_offline ........'
@@ -226,10 +226,10 @@ c     the reverse communication mode and should not be changed.
       print *, ' OPTIM_SUB: adxx(1) = ', adxx(1), adxx(2)
       print *, ' OPTIM_SUB: omode   = ', omode
       print *, ' OPTIM_SUB: niter   = ', niter
-      print *, ' OPTIM_SUB: nsim    = ', nsim 
-      print *, ' OPTIM_SUB: reverse = ', reverse 
+      print *, ' OPTIM_SUB: nsim    = ', nsim
+      print *, ' OPTIM_SUB: reverse = ', reverse
 
-c     compute min/max/mean/std of output vector see if it is within 
+c     compute min/max/mean/std of output vector see if it is within
 c     reasonable bounds (prior to scaling)
       xxmean = sum(xx(1:nn))/dble(nn)
       print *
@@ -240,7 +240,12 @@ c     reasonable bounds (prior to scaling)
      &     sum((xx(1:nn)-xxmean)**2)/dble(nn)
       print *
 c     write state of m1qn3 into pickup file for warm restart
-      call optim_store_m1qn3(ndz,iz,dz,niter,nsim,epsg,df1,
+c     even if the iteration has terminated with a defined omode state,
+c     because we would like to be able to do a warm restart with
+c     modified parameters.
+c     if ( reverse .eq. 1 ) call optim_store_m1qn3(
+      call optim_store_m1qn3(
+     I     ndz,iz,dz,niter,nsim,epsg,df1,
      I     optimcycle,
      I     .true.)
 c     write model control vector
@@ -259,7 +264,7 @@ c     clean up
 c     stopping criterion
       if ( reverse .lt. 0 ) then
        print *, ' OPTIM_SUB: reverse = ', reverse
-       print *, ' OPTIM_SUB: optimization terminated with omode = ', 
+       print *, ' OPTIM_SUB: optimization terminated with omode = ',
      &      omode
        stop 'ABNORMAL in S/R OPTIM_SUB'
       endif
