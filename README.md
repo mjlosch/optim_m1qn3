@@ -4,11 +4,15 @@ optimisation package for MITgcm based on m1qn3 with proper reverse communication
 
 These are some basic instructions to an optimization of MITgcm/verification/tutorial_global_oce_optim with optim_m1qn3. Some tweaking is definitely possible and not described here.
 
-```cd MITgcm/verification```
+```
+cd MITgcm/verification
+```
 
 This is just to compile and run the model for testing. I use TAF (just because I have it and OpenAD is a pain to compile on a Mac), but that should not make any difference
 
-```./testreport -t tutorial_global_oce_optim -adm -j 4 -ncad```
+```
+./testreport -t tutorial_global_oce_optim -adm -j 4 -ncad
+```
 
 This is the result:
 
@@ -35,7 +39,7 @@ git clone https://github.com/mjlosch/optim_m1qn3.git
 cd optim_m1qn3/src
 ```
 
-Edit Makefile to adjust to your platform. For me this involves choosing the correct CPP command and setting SUFF=for (because MacOS is case-insensitive in my case)
+Edit Makefile to adjust to your platform and compiler. It is important that you use the same compiler and compiler flags here as for compiling the MITgcm. This is important to ensure that the binary files written by the MITgcm are read correctly. For me this involves choosing the correct CPP command and setting SUFF=for (because I use MacOS and this is case-insensitive in my case), but you may want to check `tutorial_global_oce_optim/build/Makefile` to see, what compilers and options you actually used. Pay attention to the values of `FC` and `FFLAGS`; the optimization flags in `FOPTIM` are usually not important.
 
 ```
 make depend
