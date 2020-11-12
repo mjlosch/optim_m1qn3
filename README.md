@@ -187,7 +187,7 @@ Large Scale Optimization run finished.
 ```ff = -9999``` is an intentional dummy value.
 
 Now you can organize the rest in a loop. In bash, it could look like this:
-first comment out ```dfminFrac```, because ```mitgcmuv_ad``` does not know about this; ```dfminFrac``` is really only needed in the zeroth iteration.
+first comment out ```dfminFrac```, if ```mitgcmuv_ad``` does not know about it (see above); ```dfminFrac``` is really only needed in the zeroth iteration.
 ```
 # tabula rasa:
 rm ecco_c* OPWARM.* m1qn3_output.txt
@@ -245,4 +245,4 @@ output003.txt:(PID.TID 0000.0001)  global fc =  0.615556878869932D+01
 output004.txt:(PID.TID 0000.0001)  global fc =  0.615547009131471D+01
 ```
 
-As you can see, the improvement is not very good after the initial steps, and the optimization will not be successful in the end, i.e. satisfy the tolerance set by ```epsg```. This is likely because the number of timesteps in ```data``` is small (20) for this test. Try longer intergations (e.g. 1 year) and wait longer check out ```m1qn3_output.txt```, which records the output of m1qn3 the python script ```plotfc.py``` greps the cost function values out of ```m1qn3_ouput.txt``` and plots them and the number of simulations per iteration which typically increase with decreasing cost function.
+As you can see, the improvement is not very good after the initial steps, and the optimization will not be successful in the end, i.e. satisfy the tolerance set by ```epsg```. This is likely because the number of timesteps in ```data``` is small (20) for this test. Try longer intergations (e.g. 1 year) and wait longer. Check out ```m1qn3_output.txt```, which records the output of m1qn3. The python script ```plotfc.py``` greps the cost function values out of ```m1qn3_ouput.txt``` and plots them and the number of simulations per iteration; the latter typically increases with decreasing cost function.
