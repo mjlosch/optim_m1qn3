@@ -1,0 +1,145 @@
+#***********************************************************************
+# Makefile for the offline large scale optimization with m1qn3
+# in reverse communication mode.
+#
+# started: Martin Losch Martin.Losch@awi.de 24-Apr-2012
+#
+# changed: Dan Jones 16-Nov-2020 for UK ARCHER (http://www.archer.ac.uk/) 
+#
+# The compiler flags here match those used in the "large executable" 
+# configuration of the MITgcm build options file located in: 
+# /MITgcm/tools/build_options/linux_ia64_cray_archer
+#
+# In this instance, MITgcm was compiled using the cray compiler. 
+# On ARCHER, use the command `module load PrgEnv-cray` before compiling 
+# optim_m1qn3. 
+#
+# UK ARCHER won't be active much longer, but this file may be used as 
+# a basis for development on other Cray systems, including ARCHER2
+#
+#***********************************************************************
+
+MAKEFILE = Makefile
+# the optimization routines.
+SRC		=       optim_main.F			\
+			optim_sub.F			\
+			optim_readparms.F		\
+			optim_readdata.F		\
+			optim_writedata.F		\
+			optim_store_m1qn3.F		\
+                        m1qn3_offline.F			\
+                        ddot.F                          
+
+# default suffix for pre-processed fortran files is f
+SUFF= f 
+# location of cpp preprocessor
+CPP= cat $< | cpp -traditional -P 
+
+MAKEDEPEND=makedepend
+
+INCLUDES=-I/opt/cray/netcdf-hdf5parallel/4.4.1.1/cray/83/include -I/opt/cray/mpt/7.5.5/gni/mpich-cray/84/include 
+LIBS=-L/opt/cray/netcdf-hdf5parallel/4.4.1.1/cray/83/lib -L/opt/cray/mpt/7.5.5/gni/mpich-cray/84/lib 
+
+INCLUDEDIRS     = -I.				\
+	      	  -I../../MITgcm/verification/tutorial_global_oce_optim/build 
+
+LIBDIRS         =   
+
+# name of executable (in current directory)
+EXECUTABLE      = optim.x 
+
+# the cpp flags 
+CPPFLAGS =  -DREAL_BYTE=4		\
+	-DMAX_INDEPEND=1000000		\
+	-D_RL='double precision'	\
+	-D_RS='double precision'	\
+	-D_d='d'  
+
+# FORTRAN compiler and its flags.
+# the byte conversion flags must match those used in the  mitgcmuv compilation
+
+# cray compiler for ARCHER
+FC     =  ftn 
+LINK =  ftn 
+FFLAGS =  -h pic -dynamic 
+FOPTIM =  -O0 -hpf0 
+
+DEFINES = -DWORDLENGTH=4 -D_BYTESWAPIO -DTARGET_CRAYXT -DALLOW_USE_MPI -DHAVE_SYSTEM -DHAVE_FDATE -DHAVE_CLOC -DHAVE_SETRLSTK -DHAVE_SIGREG -DHAVE_STAT -DHAVE_NETCDF -DHAVE_FLUSH 
+
+SMALLF      = $(SRC:.F=.$(SUFF))
+OBJECTS     = $(SRC:.F=.o)
+
+.SUFFIXES:
+.SUFFIXES: .o .$(SUFF) .F
+
+all: small_f $(EXECUTABLE)
+$(EXECUTABLE): $(OBJECTS)
+	$(FC) -o $@ $(FFLAGS) $(OBJECTS) $(LIBDIRS) $(LIBS)
+
+small_f: $(SMALLF)
+
+depend:
+	$(MAKEDEPEND) -o .$(SUFF) $(INCLUDEDIRS) $(SRC)
+
+# The normal chain of rules is (  .F - .f - .o  )
+.F.for:
+	$(CPP) $(CPPFLAGS) $(INCLUDEDIRS) > $@
+.for.o:
+	$(FC) $(FFLAGS) -c $<
+.F.f:
+	$(CPP) $(CPPFLAGS) $(INCLUDEDIRS) > $@
+.f.o:
+	$(FC) $(FFLAGS) -c $<
+
+# Cleaning options.
+clean:
+	-rm -f *.o *.f *.for
+
+Clean:
+	@make -f $(MAKEFILE) clean
+	-rm -f OPWARM.*
+
+CLEAN:
+	@make -f $(MAKEFILE) Clean
+	-rm -f $(EXECUTABLE)
+
+# DO NOT DELETE
+
+optim_sub.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/CTRL_OPTIONS.h
+optim_sub.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/PACKAGES_CONFIG.h
+optim_sub.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/CPP_OPTIONS.h
+optim_sub.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/CPP_EEOPTIONS.h
+optim_sub.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/CPP_EEMACROS.h
+optim_sub.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/EEPARAMS.h
+optim_sub.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/SIZE.h
+optim_sub.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/ctrl.h
+optim_sub.f: optim.h m1qn3_common.h
+optim_readparms.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/CTRL_OPTIONS.h
+optim_readparms.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/PACKAGES_CONFIG.h
+optim_readparms.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/CPP_OPTIONS.h
+optim_readparms.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/CPP_EEOPTIONS.h
+optim_readparms.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/CPP_EEMACROS.h
+optim_readparms.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/EEPARAMS.h
+optim_readparms.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/SIZE.h
+optim_readparms.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/ctrl.h
+optim_readparms.f: optim.h
+optim_readdata.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/CTRL_OPTIONS.h
+optim_readdata.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/PACKAGES_CONFIG.h
+optim_readdata.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/CPP_OPTIONS.h
+optim_readdata.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/CPP_EEOPTIONS.h
+optim_readdata.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/CPP_EEMACROS.h
+optim_readdata.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/EEPARAMS.h
+optim_readdata.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/SIZE.h
+optim_readdata.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/ctrl.h
+optim_readdata.f: optim.h
+optim_writedata.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/CTRL_OPTIONS.h
+optim_writedata.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/PACKAGES_CONFIG.h
+optim_writedata.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/CPP_OPTIONS.h
+optim_writedata.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/CPP_EEOPTIONS.h
+optim_writedata.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/CPP_EEMACROS.h
+optim_writedata.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/EEPARAMS.h
+optim_writedata.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/SIZE.h
+optim_writedata.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/ctrl.h
+optim_writedata.f: optim.h
+optim_store_m1qn3.f: m1qn3_common.h m1qn3a_common.h mlis3_common.h
+m1qn3_offline.f: m1qn3_common.h m1qn3a_common.h mlis3_common.h
