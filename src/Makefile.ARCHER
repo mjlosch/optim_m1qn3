@@ -33,16 +33,16 @@ SRC		=       optim_main.F			\
                         ddot.F                          
 
 # default suffix for pre-processed fortran files is f
-SUFF= f
+SUFF = f
  
 # location of cpp preprocessor
-CPP= cat $< | cpp -traditional -P 
+CPP = cat $< | cpp -traditional -P 
 
 # make depend command
-MAKEDEPEND=makedepend
+MAKEDEPEND = makedepend
 
 # libraries and include directories
-LIBS=-L/opt/cray/netcdf-hdf5parallel/4.4.1.1/cray/83/lib -L/opt/cray/mpt/7.5.5/gni/mpich-cray/84/lib 
+LIBS            = 
 INCLUDEDIRS     = -I.				\
 	      	  -I../../MITgcm/verification/tutorial_global_oce_optim/build 
 LIBDIRS         =   
