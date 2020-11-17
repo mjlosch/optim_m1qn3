@@ -19,8 +19,10 @@
 #
 #***********************************************************************
 
+# name of Makefile
 MAKEFILE = Makefile
-# the optimization routines.
+
+# names of the source code files for the optimization routine
 SRC		=       optim_main.F			\
 			optim_sub.F			\
 			optim_readparms.F		\
@@ -31,18 +33,18 @@ SRC		=       optim_main.F			\
                         ddot.F                          
 
 # default suffix for pre-processed fortran files is f
-SUFF= f 
+SUFF= f
+ 
 # location of cpp preprocessor
 CPP= cat $< | cpp -traditional -P 
 
+# make depend command
 MAKEDEPEND=makedepend
 
-INCLUDES=-I/opt/cray/netcdf-hdf5parallel/4.4.1.1/cray/83/include -I/opt/cray/mpt/7.5.5/gni/mpich-cray/84/include 
+# libraries and include directories
 LIBS=-L/opt/cray/netcdf-hdf5parallel/4.4.1.1/cray/83/lib -L/opt/cray/mpt/7.5.5/gni/mpich-cray/84/lib 
-
 INCLUDEDIRS     = -I.				\
 	      	  -I../../MITgcm/verification/tutorial_global_oce_optim/build 
-
 LIBDIRS         =   
 
 # name of executable (in current directory)
@@ -55,17 +57,12 @@ CPPFLAGS =  -DREAL_BYTE=4		\
 	-D_RS='double precision'	\
 	-D_d='d'  
 
-# FORTRAN compiler and its flags.
+# cray fortran compiler and flags (uses the 'large executable' version of linux_ia64_cray_archer)
 # the byte conversion flags must match those used in the  mitgcmuv compilation
-
-# cray compiler for ARCHER
 FC     =  ftn 
-LINK =  ftn 
 FFLAGS =  -h pic -dynamic 
-FOPTIM =  -O0 -hpf0 
 
-DEFINES = -DWORDLENGTH=4 -D_BYTESWAPIO -DTARGET_CRAYXT -DALLOW_USE_MPI -DHAVE_SYSTEM -DHAVE_FDATE -DHAVE_CLOC -DHAVE_SETRLSTK -DHAVE_SIGREG -DHAVE_STAT -DHAVE_NETCDF -DHAVE_FLUSH 
-
+# definitions
 SMALLF      = $(SRC:.F=.$(SUFF))
 OBJECTS     = $(SRC:.F=.o)
 
@@ -81,7 +78,7 @@ small_f: $(SMALLF)
 depend:
 	$(MAKEDEPEND) -o .$(SUFF) $(INCLUDEDIRS) $(SRC)
 
-# The normal chain of rules is (  .F - .f - .o  )
+# the normal chain of rules is (  .F - .f - .o  )
 .F.for:
 	$(CPP) $(CPPFLAGS) $(INCLUDEDIRS) > $@
 .for.o:
@@ -91,7 +88,7 @@ depend:
 .f.o:
 	$(FC) $(FFLAGS) -c $<
 
-# Cleaning options.
+# cleaning options.
 clean:
 	-rm -f *.o *.f *.for
 
@@ -103,43 +100,3 @@ CLEAN:
 	@make -f $(MAKEFILE) Clean
 	-rm -f $(EXECUTABLE)
 
-# DO NOT DELETE
-
-optim_sub.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/CTRL_OPTIONS.h
-optim_sub.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/PACKAGES_CONFIG.h
-optim_sub.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/CPP_OPTIONS.h
-optim_sub.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/CPP_EEOPTIONS.h
-optim_sub.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/CPP_EEMACROS.h
-optim_sub.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/EEPARAMS.h
-optim_sub.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/SIZE.h
-optim_sub.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/ctrl.h
-optim_sub.f: optim.h m1qn3_common.h
-optim_readparms.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/CTRL_OPTIONS.h
-optim_readparms.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/PACKAGES_CONFIG.h
-optim_readparms.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/CPP_OPTIONS.h
-optim_readparms.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/CPP_EEOPTIONS.h
-optim_readparms.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/CPP_EEMACROS.h
-optim_readparms.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/EEPARAMS.h
-optim_readparms.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/SIZE.h
-optim_readparms.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/ctrl.h
-optim_readparms.f: optim.h
-optim_readdata.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/CTRL_OPTIONS.h
-optim_readdata.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/PACKAGES_CONFIG.h
-optim_readdata.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/CPP_OPTIONS.h
-optim_readdata.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/CPP_EEOPTIONS.h
-optim_readdata.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/CPP_EEMACROS.h
-optim_readdata.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/EEPARAMS.h
-optim_readdata.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/SIZE.h
-optim_readdata.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/ctrl.h
-optim_readdata.f: optim.h
-optim_writedata.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/CTRL_OPTIONS.h
-optim_writedata.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/PACKAGES_CONFIG.h
-optim_writedata.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/CPP_OPTIONS.h
-optim_writedata.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/CPP_EEOPTIONS.h
-optim_writedata.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/CPP_EEMACROS.h
-optim_writedata.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/EEPARAMS.h
-optim_writedata.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/SIZE.h
-optim_writedata.f: ../../MITgcm/verification/tutorial_global_oce_optim/build/ctrl.h
-optim_writedata.f: optim.h
-optim_store_m1qn3.f: m1qn3_common.h m1qn3a_common.h mlis3_common.h
-m1qn3_offline.f: m1qn3_common.h m1qn3a_common.h mlis3_common.h
