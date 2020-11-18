@@ -41,6 +41,8 @@ cd optim_m1qn3/src
 
 Edit Makefile to adjust to your platform and compiler. It is important that you use the same compiler and compiler flags here as for compiling the MITgcm. This is important to ensure that the binary files written by the MITgcm are read correctly. For me this involves choosing the correct CPP command and setting SUFF=for (because I use MacOS and this is case-insensitive in my case), but you may want to check `tutorial_global_oce_optim/build/Makefile` to see, what compilers and options you actually used. Pay attention to the values of `FC` and `FFLAGS`; the optimization flags in `FOPTIM` are usually not important.
 
+The file `src/Makefile.ARCHER` in this repository can be used to compile optim_m1qn3 on ARCHER, the UK national supercomputer.  
+
 ```
 make depend
 make

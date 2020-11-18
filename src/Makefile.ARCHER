@@ -1,0 +1,102 @@
+#***********************************************************************
+# Makefile for the offline large scale optimization with m1qn3
+# in reverse communication mode.
+#
+# started: Martin Losch Martin.Losch@awi.de 24-Apr-2012
+#
+# changed: Dan Jones 16-Nov-2020 for UK ARCHER (http://www.archer.ac.uk/) 
+#
+# The compiler flags here match those used in the "large executable" 
+# configuration of the MITgcm build options file located in: 
+# /MITgcm/tools/build_options/linux_ia64_cray_archer
+#
+# In this instance, MITgcm was compiled using the cray compiler. 
+# On ARCHER, use the command `module load PrgEnv-cray` before compiling 
+# optim_m1qn3. 
+#
+# UK ARCHER won't be active much longer, but this file may be used as 
+# a basis for development on other Cray systems, including ARCHER2
+#
+#***********************************************************************
+
+# name of Makefile
+MAKEFILE = Makefile
+
+# names of the source code files for the optimization routine
+SRC		=       optim_main.F			\
+			optim_sub.F			\
+			optim_readparms.F		\
+			optim_readdata.F		\
+			optim_writedata.F		\
+			optim_store_m1qn3.F		\
+                        m1qn3_offline.F			\
+                        ddot.F                          
+
+# default suffix for pre-processed fortran files is f
+SUFF = f
+ 
+# location of cpp preprocessor
+CPP = cat $< | cpp -traditional -P 
+
+# make depend command
+MAKEDEPEND = makedepend
+
+# libraries and include directories
+LIBS            = 
+INCLUDEDIRS     = -I.				\
+	      	  -I../../MITgcm/verification/tutorial_global_oce_optim/build 
+LIBDIRS         =   
+
+# name of executable (in current directory)
+EXECUTABLE      = optim.x 
+
+# the cpp flags 
+CPPFLAGS =  -DREAL_BYTE=4		\
+	-DMAX_INDEPEND=1000000		\
+	-D_RL='double precision'	\
+	-D_RS='double precision'	\
+	-D_d='d'  
+
+# cray fortran compiler and flags (uses the 'large executable' version of linux_ia64_cray_archer)
+# the byte conversion flags must match those used in the  mitgcmuv compilation
+FC     =  ftn 
+FFLAGS =  -h pic -dynamic 
+
+# definitions
+SMALLF      = $(SRC:.F=.$(SUFF))
+OBJECTS     = $(SRC:.F=.o)
+
+.SUFFIXES:
+.SUFFIXES: .o .$(SUFF) .F
+
+all: small_f $(EXECUTABLE)
+$(EXECUTABLE): $(OBJECTS)
+	$(FC) -o $@ $(FFLAGS) $(OBJECTS) $(LIBDIRS) $(LIBS)
+
+small_f: $(SMALLF)
+
+depend:
+	$(MAKEDEPEND) -o .$(SUFF) $(INCLUDEDIRS) $(SRC)
+
+# the normal chain of rules is (  .F - .f - .o  )
+.F.for:
+	$(CPP) $(CPPFLAGS) $(INCLUDEDIRS) > $@
+.for.o:
+	$(FC) $(FFLAGS) -c $<
+.F.f:
+	$(CPP) $(CPPFLAGS) $(INCLUDEDIRS) > $@
+.f.o:
+	$(FC) $(FFLAGS) -c $<
+
+# cleaning options.
+clean:
+	-rm -f *.o *.f *.for
+
+Clean:
+	@make -f $(MAKEFILE) clean
+	-rm -f OPWARM.*
+
+CLEAN:
+	@make -f $(MAKEFILE) Clean
+	-rm -f $(EXECUTABLE)
+
