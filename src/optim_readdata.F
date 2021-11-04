@@ -108,13 +108,11 @@ c--   Next optimization cycle.
        print*
        print*,' OPTIM_READDATA: Reading control vector'
        print*,'                 for optimization cycle: ',nopt
-       print*
       else if ( dfile .eq. costname ) then
        print*
        print*,' OPTIM_READDATA: Reading cost function and'//
      &                        ' gradient of cost function'
        print*,'                 for optimization cycle: ',nopt
-       print*
       else
        print*
        print*,' OPTIM_READDATA: subroutine called by a false *dfile*'
@@ -122,6 +120,10 @@ c--   Next optimization cycle.
        print*
        stop   '  ...  stopped in OPTIM_READDATA.'
       endif
+      if ( lheaderonly ) then
+       print*,'                 ... header only'
+      endif
+      print*, ' '
 
 c--   Read the data.
 
@@ -193,7 +195,7 @@ cgg)
       print *, prefix, 'filejG ', filejG
       print *, prefix, 'filensx ', filensx
       print *, prefix, 'filensy ', filensy
-         
+
       if (lheaderonly) then
        print *, prefix, 'nWetcGlobal ', (nWetcGlobal(k), k=1,nr)
        print *, prefix, 'nWetsGlobal ', (nWetsGlobal(k), k=1,nr)
@@ -244,7 +246,7 @@ cph       print*,'              input optim  cycle = ',filenopt
 cph       print*
 cph       stop   ' ... stopped in READ_HEADER.'
 cph      endif
-      
+
       if ( (fileiG .ne. biG) .or. (filejG .ne. bjG) ) then
        print*
        print*, prefix, 'Tile indices of loop and data do not match.'
@@ -255,7 +257,7 @@ cph      endif
        print*
        stop   ' ... stopped in OPTIM_READDATA.'
       endif
-      
+
       if ( (filensx .ne. nsx) .or. (filensy .ne. nsy) ) then
        print*
        print*, prefix, ' Numbers of tiles do not match.'
@@ -305,7 +307,7 @@ cgg    From "icvrec", calculate what iobcs must be.
 #endif
 #ifdef ALLOW_OBCSS_CONTROL
               if (icvar .eq. 12) cbuffindex = nWetobcssGlo(k,iobcs)
-#endif 
+#endif
 #ifdef ALLOW_OBCSW_CONTROL
               if (icvar .eq. 13) cbuffindex = nWetobcswGlo(k,iobcs)
 #endif
@@ -319,7 +321,7 @@ cgg)
               print *, ' ERROR:'
               print *, ' There are at least ', icvoffset+cbuffindex,
      &             ' records in '//fname(1:28)//'.'
-              print *, ' This is more than expected from nvarlength =', 
+              print *, ' This is more than expected from nvarlength =',
      &             nvarlength, '.'
               print *, ' Something is wrong in the computation of '//
      &             'the wet points or'
@@ -347,12 +349,12 @@ cph          enddo
          enddo
         endif
        enddo
-         
+
       else
 
 c--   Assign the number of control variables.
        nn = nvarlength
-         
+
       endif
 
       close( funit )
