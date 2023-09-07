@@ -4,7 +4,7 @@
 #
 # started: Martin Losch Martin.Losch@awi.de 24-Apr-2012
 #
-# changed: 
+# changed:
 #
 #***********************************************************************
 
@@ -17,7 +17,7 @@ SRC		=	optim_main.F			\
 			optim_writedata.F		\
 			optim_store_m1qn3.F		\
                         m1qn3_offline.F			\
-                        ddot.F                          
+                        ddot.F
 
 EXEDIR     = .
 
@@ -39,9 +39,11 @@ MAKEDEPEND=makedepend
 
 INCLUDEDIRS     = -I.				\
 		  -I../../MITgcm/verification/tutorial_global_oce_optim/build
+# to test obcs-controls
+#		  -I../../MITgcm/verification/obcs_ctrl/build
 
-LIBDIRS         = 
-LIBS            = 
+LIBDIRS         =
+LIBS            =
 
 EXECUTABLE      = $(EXEDIR)/optim.x
 
