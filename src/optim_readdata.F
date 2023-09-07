@@ -41,6 +41,9 @@ c     == global variables ==
 #if (defined (ALLOW_GENARR2D_CONTROL) || defined (ALLOW_GENARR3D_CONTROL) || defined (ALLOW_GENTIM2D_CONTROL))
 # include "CTRL_SIZE.h"
 #endif
+#ifdef ALLOW_OBCS_CONTROL
+# include "CTRL_OBCS.h"
+#endif
 #include "ctrl.h"
 #include "optim.h"
 
@@ -296,25 +299,27 @@ cph           do bi = 1,nsx
              else if (ncvargrd(icvar) .eq. 'i') then
               cbuffindex = nWetiGlobal(k)
 #endif
+#ifdef ALLOW_OBCS_CONTROL
 cgg(   O.B. points have the grid mask "m".
              else if (ncvargrd(icvar) .eq. 'm') then
 cgg    From "icvrec", calculate what iobcs must be.
               gg   = (icvrec-1)/nobcs
               igg  = int(gg)
               iobcs= icvrec - igg*nobcs
-#ifdef ALLOW_OBCSN_CONTROL
+# ifdef ALLOW_OBCSN_CONTROL
               if (icvar .eq. 11) cbuffindex = nWetobcsnGlo(k,iobcs)
-#endif
-#ifdef ALLOW_OBCSS_CONTROL
+# endif
+# ifdef ALLOW_OBCSS_CONTROL
               if (icvar .eq. 12) cbuffindex = nWetobcssGlo(k,iobcs)
-#endif
-#ifdef ALLOW_OBCSW_CONTROL
+# endif
+# ifdef ALLOW_OBCSW_CONTROL
               if (icvar .eq. 13) cbuffindex = nWetobcswGlo(k,iobcs)
-#endif
-#ifdef ALLOW_OBCSE_CONTROL
+# endif
+# ifdef ALLOW_OBCSE_CONTROL
               if (icvar .eq. 14) cbuffindex = nWetobcseGlo(k,iobcs)
-#endif
+# endif
 cgg)
+#endif /* ALLOW_OBCS_CONTROL */
              endif
              if ( icvoffset + cbuffindex .gt. nvarlength ) then
               print*

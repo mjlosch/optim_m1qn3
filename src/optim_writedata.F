@@ -10,7 +10,7 @@ C     CTRL_OPTIONS affects maxcvars and may define ALLOW_OBCS?_CONTROL
      I                       printlists,
      I                       ff,
      I                       vv
-     &                     ) 
+     &                     )
 
 c     ==================================================================
 c     SUBROUTINE optim_writedata
@@ -36,9 +36,12 @@ c     == global variables ==
 #include "EEPARAMS.h"
 #include "SIZE.h"
 #if (defined (ALLOW_GENARR2D_CONTROL) || defined (ALLOW_GENARR3D_CONTROL) || defined (ALLOW_GENTIM2D_CONTROL))
-#include "CTRL_SIZE.h"
+# include "CTRL_SIZE.h"
 #endif
-# include "ctrl.h"
+#ifdef ALLOW_OBCS_CONTROL
+# include "CTRL_OBCS.h"
+#endif
+#include "ctrl.h"
 #include "optim.h"
 
 c     == routine arguments ==
@@ -116,7 +119,7 @@ c--         Generate file name and open the file.
       print *, prefix, 'jG         ', bjG
       print *, prefix, 'nsx        ', nsx
       print *, prefix, 'nsy        ', nsy
-         
+
       if ( printlists ) then
        print *, prefix, 'nWetcGlobal ', (nWetcGlobal(k), k=1,nr)
        print *, prefix, 'nWetsGlobal ', (nWetsGlobal(k), k=1,nr)
@@ -165,7 +168,7 @@ c     Add OBCS Mask information into the header section for optimization.
 #ifdef ALLOW_OBCSE_CONTROL
       write(funit) ((nWetobcseGlo(k,iobcs), k=1,nr),iobcs= 1,nobcs)
 #endif
-      
+
       write( funit ) (ncvarindex(i), i=1,maxcvars)
       write( funit ) (ncvarrecs(i),  i=1,maxcvars)
       write( funit ) (ncvarxmax(i),  i=1,maxcvars)
@@ -200,24 +203,26 @@ CML         write( funit ) bj
           else if (ncvargrd(icvar) .eq. 'i') then
            cbuffindex = nWetiGlobal(k)
 #endif
+#ifdef ALLOW_OBCS_CONTROL
 c     O.B. points have the grid mask "m".
           else if (ncvargrd(icvar) .eq. 'm') then
 c     From "icvrec", calculate what iobcs must be.
            gg   = (icvrec-1)/nobcs
            igg  = int(gg)
            iobcs= icvrec - igg*nobcs
-#ifdef ALLOW_OBCSN_CONTROL
+# ifdef ALLOW_OBCSN_CONTROL
            if (icvar .eq. 11) cbuffindex = nWetobcsnGlo(k,iobcs)
-#endif
-#ifdef ALLOW_OBCSS_CONTROL
+# endif
+# ifdef ALLOW_OBCSS_CONTROL
            if (icvar .eq. 12) cbuffindex = nWetobcssGlo(k,iobcs)
-#endif 
-#ifdef ALLOW_OBCSW_CONTROL
+# endif
+# ifdef ALLOW_OBCSW_CONTROL
            if (icvar .eq. 13) cbuffindex = nWetobcswGlo(k,iobcs)
-#endif
-#ifdef ALLOW_OBCSE_CONTROL
+# endif
+# ifdef ALLOW_OBCSE_CONTROL
            if (icvar .eq. 14) cbuffindex = nWetobcseGlo(k,iobcs)
-#endif
+# endif
+#endif /* ALLOW_OBCS_CONTROL */
           endif
           if (cbuffindex .gt. 0) then
            do icvcomp = 1,cbuffindex
@@ -246,7 +251,3 @@ cph               enddo
 
       return
       end
-
-
-
-
