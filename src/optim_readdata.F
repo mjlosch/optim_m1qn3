@@ -44,7 +44,7 @@ c     == global variables ==
 #ifdef ALLOW_OBCS_CONTROL
 # include "CTRL_OBCS.h"
 #endif
-#include "ctrl.h"
+#include "CTRL.h"
 #include "optim.h"
 
 c     == routine arguments ==
