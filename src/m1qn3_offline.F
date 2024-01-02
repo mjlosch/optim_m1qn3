@@ -1,5 +1,5 @@
 C     The original m1qn3 has been modified to work "offline", i.e.
-C     the simulator and the driver of m1qn3_offline are separate 
+C     the simulator and the driver of m1qn3_offline are separate
 C     programs that are called alternatingly from a (shell-)script.
 C     This requires that the "state" of m1qn3 is saved before
 C     this program terminates. Communication with the routine
@@ -7,7 +7,7 @@ C     writing and restoring the state of m1qn3 is achieved via
 C     3 new common-blocks that are contained in 3 header files.
 C
 C     Apr27, 2012, Martin.Losch@awi.de
-C     
+C
       subroutine m1qn3_offline
      &     (simul,prosca,ctonb,ctcab,n,x,f,g,dxmin,df1,
      &     epsg,normtype,impres,io,imode,omode,niter,nsim,
@@ -936,8 +936,10 @@ c
       logical sscale
       integer n,nm,jmin,jmax,izs(*)
       real rzs(*)
-      double precision depl(n),precos,diag(n),alpha(nm),ybar(n,1),
-     &    sbar(n,1),aux(n),dzs(*)
+      double precision depl(n),precos,diag(n),alpha(nm),ybar(n,*),
+     &    sbar(n,*),aux(n),dzs(*)
+CML   double precision depl(n),precos,diag(n),alpha(nm),ybar(n,1),
+CML  &    sbar(n,1),aux(n),dzs(*)
       external prosca,ctonb,ctcab
 c
 c         variables locales
@@ -1129,7 +1131,7 @@ c
 c
 c --- variables locales
 c
-#include "mlis3_common.h"      
+#include "mlis3_common.h"
       integer i
       double precision taa,ps
 CML      save t_increased,i,indica,indicd,tesf,tesd,tg,fg,fpg,td,ta,fa,
@@ -1531,7 +1533,8 @@ c
       implicit none
       integer n,izs(*)
       real rzs(*)
-      double precision u(1),v(1),dzs(*)
+      double precision u(*),v(*),dzs(*)
+CML   double precision u(1),v(1),dzs(*)
 c
       integer i
 c
@@ -1548,7 +1551,8 @@ c
       implicit none
       integer n,izs(*)
       real rzs(*)
-      double precision u(1),v(1),dzs(*)
+      double precision u(*),v(*),dzs(*)
+CML   double precision u(1),v(1),dzs(*)
 c
       integer i
 c
