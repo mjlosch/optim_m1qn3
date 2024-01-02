@@ -15,6 +15,7 @@ SRC        = optim_main.F		\
 	     optim_readparms.F		\
 	     optim_readdata.F		\
 	     optim_writedata.F		\
+	     ctrl_convert_header.F	\
 	     optim_store_m1qn3.F	\
 	     m1qn3_offline.F		\
 	     ddot.F
@@ -43,9 +44,9 @@ _GET_FC
 _GET_FFLAGS
 _GET_FOPTIM
 # default suffix for pre-processed fortran files is f
-# SUFF=f
+SUFF=f
 # for case-insensitive file systems you may need this
-SUFF=for
+# SUFF=for
 
 # Lib path and libs
 LIBDIRS    =
