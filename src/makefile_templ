@@ -1,0 +1,91 @@
+
+#***********************************************************************
+# Makefile template for the off-line large scale optimization with
+# m1qn3 in reverse communication mode.
+#
+# started: Martin Losch Martin.Losch@awi.de 24-Apr-2012
+#
+# changed:
+#
+#***********************************************************************
+
+# The optimization routines.
+SRC        = optim_main.F		\
+             optim_sub.F		\
+	     optim_readparms.F		\
+	     optim_readdata.F		\
+	     optim_writedata.F		\
+	     optim_store_m1qn3.F	\
+	     m1qn3_offline.F		\
+	     ddot.F
+
+EXEDIR     = .
+TOOLSDIR   = ../../MITgcm/tools
+
+INCLUDES   = -I. -I_GET_BLD_DIR
+
+EXTRA_OPT  = _GET_EXTRA_OPT
+EXECUTABLE = $(EXEDIR)/optim.x
+
+# CPP preprocessor command:
+_GET_CPPCMD
+
+# The CPP flags.
+DEFINES    = -DREAL_BYTE=4 -DMAX_INDEPEND=1000000 -D$(EXTRA_OPT) \
+	     -D_RL='real*8' -D_RS='real*8' -D_d='d'
+
+MAKEDEPEND=makedepend
+# this works after you have built xmakedepend
+#MAKEDEPEND=$(TOOLSDIR)/xmakedepend
+
+# FORTRAN compiler and flags.
+_GET_FC
+_GET_FFLAGS
+_GET_FOPTIM
+# default suffix for pre-processed fortran files is f
+# SUFF=f
+# for case-insensitive file systems you may need this
+SUFF=for
+
+# Lib path and libs
+LIBDIRS    =
+LIBS       =
+
+# File removal.
+RM         = rm -f
+
+#--- rules ----
+
+SMALLF     = $(SRC:.F=.$(SUFF))
+OBJECTS    = $(SRC:.F=.o)
+
+.SUFFIXES:
+.SUFFIXES: .o .$(SUFF) .F
+
+all: small_f $(EXECUTABLE)
+$(EXECUTABLE): $(OBJECTS)
+	$(FC) -o $@ $(FFLAGS) $(FOPTIM) $(OBJECTS) $(LIBDIRS) $(LIBS)
+
+small_f: $(SMALLF)
+
+depend:
+	$(MAKEDEPEND) -o .$(SUFF) $(INCLUDES) $(SRC)
+
+# The normal chain of rules is (  .F - .f - .o  )
+.F.for:
+	$(CPPCMD) > $@
+.for.o:
+	$(FC) $(FFLAGS) $(FOPTIM) -c $<
+.F.f:
+	$(CPPCMD) > $@
+.f.o:
+	$(FC) $(FFLAGS) $(FOPTIM) -c $<
+
+# Cleaning options.
+clean:
+	$(RM) $(EXEDIR)/optim.x *.o *.$(SUFF)
+
+scratch:
+	$(RM) OPWARM.* $(EXEDIR)/optim.x $(OBJ)
+
+# DO NOT DELETE
