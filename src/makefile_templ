@@ -31,6 +31,9 @@ EXECUTABLE = $(EXEDIR)/optim.x
 # CPP preprocessor command:
 _GET_CPPCMD
 
+# Suffix of preprocessed *.F files:
+SUFX=_GET_SFX_
+
 # The CPP flags.
 DEFINES    = -DREAL_BYTE=4 -DMAX_INDEPEND=1000000 -D$(EXTRA_OPT) \
 	     -D_RL='real*8' -D_RS='real*8' -D_d='d'
@@ -43,10 +46,6 @@ MAKEDEPEND=makedepend
 _GET_FC
 _GET_FFLAGS
 _GET_FOPTIM
-# default suffix for pre-processed fortran files is f
-SUFF=f
-# for case-insensitive file systems you may need this
-# SUFF=for
 
 # Lib path and libs
 LIBDIRS    =
@@ -57,11 +56,11 @@ RM         = rm -f
 
 #--- rules ----
 
-SMALLF     = $(SRC:.F=.$(SUFF))
+SMALLF     = $(SRC:.F=.$(SUFX))
 OBJECTS    = $(SRC:.F=.o)
 
 .SUFFIXES:
-.SUFFIXES: .o .$(SUFF) .F
+.SUFFIXES: .o .$(SUFX) .F
 
 all: small_f $(EXECUTABLE)
 $(EXECUTABLE): $(OBJECTS)
@@ -70,21 +69,17 @@ $(EXECUTABLE): $(OBJECTS)
 small_f: $(SMALLF)
 
 depend:
-	$(MAKEDEPEND) -o .$(SUFF) $(INCLUDES) $(SRC)
+	$(MAKEDEPEND) -o .$(SUFX) $(INCLUDES) $(SRC)
 
-# The normal chain of rules is (  .F - .f - .o  )
-.F.for:
+# The normal chain of rules is (  .F - ._GET_SFX_ - .o  )
+.F._GET_SFX_:
 	$(CPPCMD) > $@
-.for.o:
-	$(FC) $(FFLAGS) $(FOPTIM) -c $<
-.F.f:
-	$(CPPCMD) > $@
-.f.o:
+._GET_SFX_.o:
 	$(FC) $(FFLAGS) $(FOPTIM) -c $<
 
 # Cleaning options.
 clean:
-	$(RM) $(EXEDIR)/optim.x *.o *.$(SUFF)
+	$(RM) $(EXEDIR)/optim.x *.o *.$(SUFX)
 
 scratch:
 	$(RM) OPWARM.* $(EXEDIR)/optim.x $(OBJ)
