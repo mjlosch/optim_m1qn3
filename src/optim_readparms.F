@@ -26,9 +26,7 @@ c     == global variables ==
 
 #include "EEPARAMS.h"
 #include "SIZE.h"
-#if (defined (ALLOW_GENARR2D_CONTROL) || defined (ALLOW_GENARR3D_CONTROL) || defined (ALLOW_GENTIM2D_CONTROL))
-# include "CTRL_SIZE.h"
-#endif
+#include "CTRL_SIZE.h"
 #include "CTRL.h"
 #include "optim.h"
 
