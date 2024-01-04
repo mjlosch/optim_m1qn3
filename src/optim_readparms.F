@@ -38,6 +38,7 @@ c     == routine arguments ==
 
 c     == local variables ==
 
+      integer ivar
       integer il
       integer errio
 
@@ -73,9 +74,9 @@ c     == end of interface ==
       namelist /M1QN3/
      &     coldStart
 
-c--   Initialise myx/ygloballo to one. In the MITgcm they are set 
-c     in ini_procs.F according to the current mpi-process, but here 
-c     we can just set them to 1 because we do not anticipate, to 
+c--   Initialise myx/ygloballo to one. In the MITgcm they are set
+c     in ini_procs.F according to the current mpi-process, but here
+c     we can just set them to 1 because we do not anticipate, to
 c     ever run this program in a multprocessor environment.
       myygloballo = 1
       myxgloballo = 1
@@ -161,6 +162,18 @@ c--   Read optimization parameters from file.
       endif
 c     always force cold start for the 0th cycle
       if ( optimcycle .eq. 0 ) coldStart=.true.
+
+c     Initialise some global variables before calling optim_readdata, so
+c     that they contain sensible values.
+      do ivar=1,maxcvars
+       ncvarindex(ivar) = -1
+       ncvarrecs(ivar)  = -1
+       ncvarxmax(ivar)  = -1
+       ncvarymax(ivar)  = -1
+       ncvarnrmax(ivar) = -1
+       ncvargrd(ivar)   = 'X'
+       ncvartype(ivar)  = 'UNSET'
+      enddo
 
 c     read header from costname rather than ctrlname, because the
 c     cost function value in costname is what we need, ctrlname only

@@ -261,7 +261,8 @@ c     clean up
 
 c     stopping criterion
       if ( reverse .lt. 0 ) then
-       print *, ' OPTIM_SUB: reverse = ', reverse
+       print *, ' OPTIM_SUB: reverse                            = ',
+     &      reverse
        print *, ' OPTIM_SUB: optimization terminated with omode = ',
      &      omode
        stop 'ABNORMAL in S/R OPTIM_SUB'
