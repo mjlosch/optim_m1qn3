@@ -46,7 +46,7 @@ In the compile step, it is important that you use the same compiler and compiler
 ```
 
 In some cases you many need to edit `makefile_templ` before running `prep_make`.
-See [`MITgcm/optim/README.md`](https://github.com/mjlosch/MITgcm/blob/ctrl_cleanup/optim/README.md) for more details. Then,
+See [`MITgcm/optim/README.md`](https://github.com/MITgcm/MITgcm/blob/master/optim/README.md) for more details. Then,
 
 ```
 make depend
