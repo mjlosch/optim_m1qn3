@@ -31,7 +31,7 @@ def get_output (fname, mystring):
         print(fname + " does not exist, continuing")
     else:
         for line in f:
-            if mystring in line: 
+            if mystring in line:
                 ll = line.split()
                 iters.append( int(ll[2].replace(',','')))
                 simuls.append(int(ll[4].replace(',','')))
@@ -46,9 +46,10 @@ for k,it in enumerate(iters[1:]):
     kp1=k+1
     if iters0[kp1]<iters0[kp1-1]:
         iters0[kp1:] = iters0[kp1:]+(iters0[k]-iters0[kp1]+1)
-        
+
 fig, ax1 = plt.subplots()
-ax1.semilogy(iters0,(np.asarray(fc)-fc[-1]),'bx-')
+#ax1.semilogy(iters0,(np.asarray(fc)-fc[-1]),'bx-')
+ax1.semilogy(iters0,(np.asarray(fc)),'bx-')
 ax1.set_xlabel('iterations')
 ax1.set_ylabel('fc-min(fc)', color='b')
 ax1.tick_params('y', colors='b')

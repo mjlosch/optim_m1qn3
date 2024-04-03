@@ -1,8 +1,8 @@
 # optim_m1qn3
 optimisation package for MITgcm based on m1qn3 with proper reverse communication
-(code and documentation can be found here: https://who.rocq.inria.fr/Jean-Charles.Gilbert/modulopt/optimization-routines/m1qn3/m1qn3.html)
+(code and documentation can be found here: https://who.rocq.inria.fr/Jean-Charles.Gilbert/modulopt/optimization-routines/m1qn3/m1qn3.html). The current version works with MITgcm checkpoint68w (2024/03/05) and later. For older version of MITgcm use, e.g. `git checkout tags/prior_to_checkpoint68w`
 
-These are some basic instructions to an optimization of MITgcm/verification/tutorial_global_oce_optim with optim_m1qn3. Some tweaking is definitely possible and not described here.
+These are some basic instructions to an optimization of `myExp=tutorial_global_oce_optim` in `MITgcm/verification` with `optim_m1qn3`. Some tweaking is definitely possible and not described here.
 
 ```
 cd MITgcm/verification
@@ -11,7 +11,7 @@ cd MITgcm/verification
 This is just to compile and run the model for testing. I use TAF (just because I have it and OpenAD is a pain to compile on a Mac), but that should not make any difference
 
 ```
-./testreport -t tutorial_global_oce_optim -adm -j 4 -ncad
+./testreport -t ${myExp} -adm -j 4 -ncad
 ```
 
 This is the result:
@@ -24,14 +24,14 @@ n n k u  s  G  G
 Y Y Y Y 15>16< 8 pass  tutorial_global_oce_optim  (e=0, w=0, lfd=1, dop=1, sm=0)
 ```
 
-here is the cost function value that I get
+and here is the cost function value that I get:
 
 ```
 (PID.TID 0000.0001)   local fc =  0.620023228182336D+01
 (PID.TID 0000.0001)  global fc =  0.620023228182336D+01
 ```
 
-now I download and compile optim_m1qn3
+Now I download and compile optim_m1qn3:
 
 ```
 cd ../../
@@ -39,9 +39,14 @@ git clone https://github.com/mjlosch/optim_m1qn3.git
 cd optim_m1qn3/src
 ```
 
-Edit Makefile to adjust to your platform and compiler. It is important that you use the same compiler and compiler flags here as for compiling the MITgcm. This is important to ensure that the binary files written by the MITgcm are read correctly. For me this involves choosing the correct CPP command and setting SUFF=for (because I use MacOS and this is case-insensitive in my case), but you may want to check `tutorial_global_oce_optim/build/Makefile` to see, what compilers and options you actually used. Pay attention to the values of `FC` and `FFLAGS`; the optimization flags in `FOPTIM` are usually not important.
+In the compile step, it is important that you use the same compiler and compiler flags here as for compiling the MITgcm. This is important to ensure that the binary files written by the MITgcm are read correctly. To generate a working makefile with the same settings as in the verification experiment use
 
-The file `src/Makefile.ARCHER` in this repository can be used to compile optim_m1qn3 on ARCHER, the UK national supercomputer.
+```
+./prep_make ../../MITgcm/verification/${myExp}/build
+```
+
+In some cases you many need to edit `makefile_templ` before running `prep_make`.
+See [`MITgcm/optim/README.md`](https://github.com/mjlosch/MITgcm/blob/ctrl_cleanup/optim/README.md) for more details. Then,
 
 ```
 make depend
@@ -51,11 +56,12 @@ make
 Then I get executable ```optim.x```
 
 ```
-cd ../../MITgcm/verification/tutorial_global_oce_optim/run
+cd ../../MITgcm/verification/${myExp}/run
 cp ../../../../optim_m1qn3/src/optim.x .
 ```
 
 Then:
+
 - turn off the gradient check (in data.pkg: ```useGrdchk = .FALSE.```)
 - tweak the namelist files data.ctrl and data.optim to the compiler needs (I need a ```/``` to terminate a namelist)
 - I would replace fmin with dfminFrac = 0.1 (expected reduction of 10%) in ```data.optim&OPTIM``` to be independent of the absolute value of the  cost function. (Note: When you run ```./mitgcmuv_ad``` with code prior to Apr 12, 2019 with this you need to comment out ```dfminFrac```, because older versions of ```mitgcmuv_ad``` did not know about this namelist parameter.)
@@ -66,11 +72,12 @@ Then:
 &M1QN3
 /
 ```
+
 Ready to run:
 
 ```./optim.x > opt0.txt ```
 
-I get a lot of output in opt0.txt, which is easier to read with ```less -S opt0.out``` (to truncate long lines); essentially I have the same value for the cost function.
+The output in opt0.txt is easier to read with ```less -S opt0.out``` (to truncate long lines); essentially I have the same value for the cost function.
 
 ```
 ==================================================
@@ -93,7 +100,16 @@ OPTIM_READDATA: fileiG            1
 OPTIM_READDATA: filejG            1
 OPTIM_READDATA: filensx            2
 OPTIM_READDATA: filensy            2
-[...]
+OPTIM_READDATA: nWetcGlobal         2315        2315        2254        2215        2178        2142        2114        2076        2048        1999        1948        1850        1655        1372         828
+OPTIM_READDATA: nWetsGlobal         2149        2149        2102        2058        2027        1987        1959        1918        1887        1831        1771        1653        1404        1118         623
+OPTIM_READDATA: nWetwGlobal         2206        2206        2146        2104        2070        2029        2004        1959        1925        1869        1808        1705        1458        1164         671
+OPTIM_READDATA: ncvarindex            1          -1          -1
+OPTIM_READDATA: ncvarrecs             1          -1          -1
+OPTIM_READDATA: ncvarxmax            45          -1          -1
+OPTIM_READDATA: ncvarymax            20          -1          -1
+OPTIM_READDATA: ncvarnrmax            1          -1          -1
+OPTIM_READDATA: ncvargrd   c,X,X,
+OPTIM_READDATA: ncvartype  Tim2D,UNSET,UNSET,
 OPTIM_READDATA: end of optim_readdata
 
 
@@ -188,8 +204,8 @@ Large Scale Optimization run finished.
 
 ```ff = -9999``` is an intentional dummy value.
 
-Now you can organize the rest in a loop. In bash, it could look like this:
-first comment out ```dfminFrac```, if ```mitgcmuv_ad``` does not know about it (see above); ```dfminFrac``` is really only needed in the zeroth iteration.
+Now you can organize the rest in a loop. In bash, after removing the linked file ```data.optim``` it could look like this: (remember to comment out ```dfminFrac```, if ```mitgcmuv_ad``` does not know about it, see above; ```dfminFrac``` is really only needed in the zeroth iteration.)
+
 ```
 # tabula rasa:
 rm ecco_c* OPWARM.* m1qn3_output.txt
@@ -212,7 +228,7 @@ cat > data.optim <<EOF #
 /
 EOF
 
-while (( $myiter < 20 ))
+while (( $myiter < 101 ))
 do
     # formatter iteration count
     it=`echo $myiter | awk '{printf "%03i",$1}'`
@@ -230,8 +246,10 @@ do
     ((myiter++))
 done
 ```
+A script `optim_m1qn3/src/run.sh` is provided that gives another example. After this:
 
 ```grep "fc " output001.txt```
+
 ```
 (PID.TID 0000.0001)   early fc =  0.000000000000000D+00
 (PID.TID 0000.0001)   local fc =  0.132325873958879D+02
@@ -239,6 +257,7 @@ done
 ```
 
 ```grep "global fc " output???.txt```
+
 ```
 output000.txt:(PID.TID 0000.0001)  global fc =  0.620023228182336D+01
 output001.txt:(PID.TID 0000.0001)  global fc =  0.132325873958879D+02
@@ -247,4 +266,6 @@ output003.txt:(PID.TID 0000.0001)  global fc =  0.615556878869932D+01
 output004.txt:(PID.TID 0000.0001)  global fc =  0.615547009131471D+01
 ```
 
-As you can see, the improvement is not very good after the initial steps, and the optimization will not be successful in the end, i.e. satisfy the tolerance set by ```epsg```. This is likely because the number of timesteps in ```data``` is small (20) for this test. Try longer intergations (e.g. 1 year) and wait longer. Check out ```m1qn3_output.txt```, which records the output of m1qn3. The python script ```plotfc.py``` greps the cost function values out of ```m1qn3_ouput.txt``` and plots them and the number of simulations per iteration; the latter typically increases with decreasing cost function.
+As you can see, the improvement is not very good after the initial steps, and the optimization will not be successful in the end, i.e. satisfy the tolerance set by ```epsg```. This is likely because the number of timesteps in ```data``` is small (20) for this test. Try longer intergations (e.g. 1 year) and wait longer. Or try this with `myExp=obcs_ctrl`, where the optimisation is more successfull even with the short experiment.
+
+Check out ```m1qn3_output.txt```, which records the output of m1qn3. The python script ```plotfc.py``` greps the cost function values out of ```m1qn3_ouput.txt``` and plots them and the number of simulations per iteration; the latter typically increases with decreasing cost function.
